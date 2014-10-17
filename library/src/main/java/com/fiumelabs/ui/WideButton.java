@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -15,12 +16,18 @@ public class WideButton extends ImageView {
 
     public static final String TAG = WideButton.class.getSimpleName();
 
+    private final int arcRadius = 10;
+    private final int margin = 2;
+
     private int width;
     private int height;
 
+    private RectF buttonRect;
     private Paint buttonPaint;
     private int buttonColor;
 
+    private Paint borderPaint;
+    private RectF borderRect;
 
     public WideButton(Context context){
         super(context);
@@ -36,6 +43,9 @@ public class WideButton extends ImageView {
 
     protected void initialize(Context context, AttributeSet attr){
 
+        buttonRect = new RectF();
+        borderRect = new RectF();
+
         buttonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         buttonPaint.setStyle(Paint.Style.FILL);
 
@@ -50,13 +60,19 @@ public class WideButton extends ImageView {
             buttonColor = array.getColor(R.styleable.WideButton_color_wide_button, buttonColor);
         }
 
+        buttonPaint.setColor(buttonColor);
+
+        borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        borderPaint.setStyle(Paint.Style.FILL);
+        borderPaint.setColor(getDarkerColor(buttonColor));
+
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawRect(0, 0, width, height, buttonPaint);
-
+        canvas.drawRoundRect(borderRect, arcRadius, arcRadius, borderPaint);
+        canvas.drawRoundRect(buttonRect, arcRadius, arcRadius, buttonPaint);
         super.onDraw(canvas);
     }
 
@@ -65,6 +81,19 @@ public class WideButton extends ImageView {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
+        updateDimensions();
+    }
+
+    protected void updateDimensions(){
+        buttonRect.set(0+margin,0+margin,width-margin,height-margin);
+        borderRect.set(0+(margin*2),0+(margin*2),width,height);
+    }
+
+    protected int getDarkerColor(int color){
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.8f; // value component
+        return Color.HSVToColor(hsv);
     }
 
 }
