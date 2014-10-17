@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -16,9 +18,15 @@ public class WideButton extends ImageView {
 
     public static final String TAG = WideButton.class.getSimpleName();
 
-    private final int arcRadiusX = 0;
-    private final int arcRadiusY = 0;
-    private final int margin = 3;
+    private final String TEAL_COLOR = "#0099FF";
+
+    private final int arcRadiusX = 3;
+    private final int arcRadiusY = 5;
+    private final int animMargin = 2;
+    private final int margin = 2+animMargin;
+
+    private String bigLabel;
+    private String smallLabel;
 
     private int width;
     private int height;
@@ -54,18 +62,18 @@ public class WideButton extends ImageView {
         this.setScaleType(ScaleType.CENTER_INSIDE);
         setClickable(true);
 
-        buttonColor = Color.BLUE;
+        buttonColor = Color.parseColor(TEAL_COLOR);
 
         if (attr != null) {
             final TypedArray array = context.obtainStyledAttributes(attr, R.styleable.WideButton);
             buttonColor = array.getColor(R.styleable.WideButton_color_wide_button, buttonColor);
         }
 
-        buttonPaint.setColor(buttonColor);
+        buttonPaint.setShader(new LinearGradient(0, 0, 0, height, getBorderColor(buttonColor), buttonColor, Shader.TileMode.MIRROR));
 
         borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         borderPaint.setStyle(Paint.Style.FILL);
-        borderPaint.setColor(getDarkerColor(buttonColor));
+        borderPaint.setColor(getBorderColor(buttonColor));
 
     }
 
@@ -88,13 +96,16 @@ public class WideButton extends ImageView {
     protected void updateDimensions(){
         buttonRect.set(0+margin,0+margin,width-margin,height-margin);
         borderRect.set(0,0,width,height);
+        buttonPaint.setShader(new LinearGradient(0, 0, 0, height, getBorderColor(buttonColor), buttonColor, Shader.TileMode.MIRROR));
     }
 
-    protected int getDarkerColor(int color){
+    protected int getBorderColor(int color){
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] *= 0.95f; // value component
         return Color.HSVToColor(hsv);
     }
+    
+
 
 }
