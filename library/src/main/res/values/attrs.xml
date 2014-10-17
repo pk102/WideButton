@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WideButton">
+        <attr name="color_wide_button" format="color" />
+    </declare-styleable>
+</resources>

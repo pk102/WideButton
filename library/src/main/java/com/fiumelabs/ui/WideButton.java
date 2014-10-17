@@ -1,7 +1,9 @@
 package com.fiumelabs.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -17,21 +19,22 @@ public class WideButton extends ImageView {
     private int height;
 
     private Paint buttonPaint;
+    private int buttonColor;
 
 
     public WideButton(Context context){
         super(context);
-        initialize(context);
+        initialize(context, null);
 
     }
 
     public WideButton(Context context, AttributeSet attributes){
         super(context);
-        initialize(context);
+        initialize(context, attributes);
 
     }
 
-    protected void initialize(Context context){
+    protected void initialize(Context context, AttributeSet attr){
 
         buttonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         buttonPaint.setStyle(Paint.Style.FILL);
@@ -39,6 +42,13 @@ public class WideButton extends ImageView {
         this.setFocusable(true);
         this.setScaleType(ScaleType.CENTER_INSIDE);
         setClickable(true);
+
+        buttonColor = Color.RED;
+
+        if (attr != null) {
+            final TypedArray array = context.obtainStyledAttributes(attr, R.styleable.WideButton);
+            buttonColor = array.getColor(R.styleable.WideButton_color_wide_button, buttonColor);
+        }
 
     }
 
