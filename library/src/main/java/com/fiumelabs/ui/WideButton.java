@@ -3,6 +3,7 @@ package com.fiumelabs.ui;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
@@ -19,6 +20,12 @@ public class WideButton extends ImageView {
 
 
     public WideButton(Context context){
+        super(context);
+        initialize(context);
+
+    }
+
+    public WideButton(Context context, AttributeSet attributes){
         super(context);
         initialize(context);
 
