@@ -28,9 +28,6 @@ public class WideButton extends ImageView {
     private final int textMargin = 4+margin;
     private final int MAX_HEIGHT = 60;
 
-    private String bigLabel;
-    private String smallLabel;
-
     private int width;
     private int height;
 
@@ -57,10 +54,6 @@ public class WideButton extends ImageView {
     }
 
     protected void initialize(Context context, AttributeSet attr){
-
-        //test
-        bigLabel = "Lo Rem Ipsem";
-        smallLabel = "06/07/2015";
 
         buttonRect = new RectF();
         borderRect = new RectF();
@@ -98,12 +91,6 @@ public class WideButton extends ImageView {
     protected void onDraw(Canvas canvas) {
         canvas.drawRoundRect(borderRect, arcRadiusX, arcRadiusY, borderPaint);
         canvas.drawRoundRect(buttonRect, arcRadiusX, arcRadiusY, buttonPaint);
-
-        int offset = 0;
-        if(height > MAX_HEIGHT){
-            offset = (height-MAX_HEIGHT)/2;
-        }
-        canvas.drawText(bigLabel, 0, bigLabel.length(), 0+textMargin, 0+bigTextSize+offset, bigTextPaint);
         super.onDraw(canvas);
     }
 
