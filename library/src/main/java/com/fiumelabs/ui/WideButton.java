@@ -16,8 +16,9 @@ public class WideButton extends ImageView {
 
     public static final String TAG = WideButton.class.getSimpleName();
 
-    private final int arcRadius = 10;
-    private final int margin = 2;
+    private final int arcRadiusX = 0;
+    private final int arcRadiusY = 0;
+    private final int margin = 3;
 
     private int width;
     private int height;
@@ -53,7 +54,7 @@ public class WideButton extends ImageView {
         this.setScaleType(ScaleType.CENTER_INSIDE);
         setClickable(true);
 
-        buttonColor = Color.RED;
+        buttonColor = Color.BLUE;
 
         if (attr != null) {
             final TypedArray array = context.obtainStyledAttributes(attr, R.styleable.WideButton);
@@ -71,8 +72,8 @@ public class WideButton extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawRoundRect(borderRect, arcRadius, arcRadius, borderPaint);
-        canvas.drawRoundRect(buttonRect, arcRadius, arcRadius, buttonPaint);
+        canvas.drawRoundRect(borderRect, arcRadiusX, arcRadiusY, borderPaint);
+        canvas.drawRoundRect(buttonRect, arcRadiusX, arcRadiusY, buttonPaint);
         super.onDraw(canvas);
     }
 
@@ -86,13 +87,13 @@ public class WideButton extends ImageView {
 
     protected void updateDimensions(){
         buttonRect.set(0+margin,0+margin,width-margin,height-margin);
-        borderRect.set(0+(margin*2),0+(margin*2),width,height);
+        borderRect.set(0,0,width,height);
     }
 
     protected int getDarkerColor(int color){
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
-        hsv[2] *= 0.8f; // value component
+        hsv[2] *= 0.95f; // value component
         return Color.HSVToColor(hsv);
     }
 
