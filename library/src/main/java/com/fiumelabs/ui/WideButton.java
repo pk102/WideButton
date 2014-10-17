@@ -26,6 +26,7 @@ public class WideButton extends ImageView {
     private final int animMargin = 2;
     private final int margin = 2+animMargin;
     private final int textMargin = 4+margin;
+    private final int MAX_HEIGHT = 60;
 
     private String bigLabel;
     private String smallLabel;
@@ -97,7 +98,12 @@ public class WideButton extends ImageView {
     protected void onDraw(Canvas canvas) {
         canvas.drawRoundRect(borderRect, arcRadiusX, arcRadiusY, borderPaint);
         canvas.drawRoundRect(buttonRect, arcRadiusX, arcRadiusY, buttonPaint);
-        canvas.drawText(bigLabel, 0, bigLabel.length(), 0+textMargin, 0+bigTextSize, bigTextPaint);
+
+        int offset = 0;
+        if(height > MAX_HEIGHT){
+            offset = (height-MAX_HEIGHT)/2;
+        }
+        canvas.drawText(bigLabel, 0, bigLabel.length(), 0+textMargin, 0+bigTextSize+offset, bigTextPaint);
         super.onDraw(canvas);
     }
 
@@ -112,8 +118,13 @@ public class WideButton extends ImageView {
     protected void updateDimensions(){
         buttonRect.set(0+margin,0+margin,width-margin,height-margin);
         borderRect.set(0,0,width,height);
+
         buttonPaint.setShader(new LinearGradient(0, 0, 0, height, getBorderColor(buttonColor), buttonColor, Shader.TileMode.MIRROR));
-        bigTextSize = (int)(height * 0.8);
+
+        int ht = height;
+        if(ht > MAX_HEIGHT)
+            ht = MAX_HEIGHT;
+        bigTextSize = (int)(ht * 0.8);
         bigTextPaint.setTextSize(bigTextSize);
     }
 

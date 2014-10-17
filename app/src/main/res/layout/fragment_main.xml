@@ -12,8 +12,10 @@
         <com.fiumelabs.ui.WideButton
             android:id="@+id/button0"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="150dp"
             />
+
+
 
         <com.fiumelabs.ui.WideButton
             android:id="@+id/button1"
