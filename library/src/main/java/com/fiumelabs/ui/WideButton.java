@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -24,12 +25,16 @@ public class WideButton extends ImageView {
     private final int arcRadiusY = 5;
     private final int animMargin = 2;
     private final int margin = 2+animMargin;
+    private final int textMargin = 4+margin;
 
     private String bigLabel;
     private String smallLabel;
 
     private int width;
     private int height;
+
+    private Paint bigTextPaint;
+    private int bigTextSize;
 
     private RectF buttonRect;
     private Paint buttonPaint;
@@ -51,6 +56,10 @@ public class WideButton extends ImageView {
     }
 
     protected void initialize(Context context, AttributeSet attr){
+
+        //test
+        bigLabel = "Lo Rem Ipsem";
+        smallLabel = "06/07/2015";
 
         buttonRect = new RectF();
         borderRect = new RectF();
@@ -75,6 +84,12 @@ public class WideButton extends ImageView {
         borderPaint.setStyle(Paint.Style.FILL);
         borderPaint.setColor(getBorderColor(buttonColor));
 
+        bigTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        bigTextPaint.setStyle(Paint.Style.FILL);
+        bigTextPaint.setColor(Color.WHITE);
+        bigTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
+        bigTextPaint.setTextSize((int)(height * 0.6));
+
     }
 
 
@@ -82,6 +97,7 @@ public class WideButton extends ImageView {
     protected void onDraw(Canvas canvas) {
         canvas.drawRoundRect(borderRect, arcRadiusX, arcRadiusY, borderPaint);
         canvas.drawRoundRect(buttonRect, arcRadiusX, arcRadiusY, buttonPaint);
+        canvas.drawText(bigLabel, 0, bigLabel.length(), 0+textMargin, 0+bigTextSize, bigTextPaint);
         super.onDraw(canvas);
     }
 
@@ -97,6 +113,8 @@ public class WideButton extends ImageView {
         buttonRect.set(0+margin,0+margin,width-margin,height-margin);
         borderRect.set(0,0,width,height);
         buttonPaint.setShader(new LinearGradient(0, 0, 0, height, getBorderColor(buttonColor), buttonColor, Shader.TileMode.MIRROR));
+        bigTextSize = (int)(height * 0.8);
+        bigTextPaint.setTextSize(bigTextSize);
     }
 
     protected int getBorderColor(int color){
@@ -105,7 +123,7 @@ public class WideButton extends ImageView {
         hsv[2] *= 0.95f; // value component
         return Color.HSVToColor(hsv);
     }
-    
+
 
 
 }
